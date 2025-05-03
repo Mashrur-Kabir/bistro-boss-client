@@ -1,0 +1,27 @@
+.hover-underline-animation {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .hover-underline-animation::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: white;
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+  }
+  
+  .hover-underline-animation:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  .nav-link-transition {
+    transition: color 0.3s ease, font-size 0.3s ease;
+  }
+  

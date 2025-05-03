@@ -1,0 +1,85 @@
+/* === Swiper Container === */
+.testimonial-swiper {
+    position: relative;
+    overflow: visible;
+  }
+  
+  /* === Swiper Slide Fade Setup === */
+  .testimonial-swiper .swiper-slide {
+    opacity: 0 !important;
+    transition: opacity 0.6s ease-in-out !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  
+  .testimonial-swiper .swiper-slide.swiper-slide-active {
+    opacity: 1 !important;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* === Navigation Arrows (Desktop) === */
+  .testimonial-swiper .swiper-button-prev,
+  .testimonial-swiper .swiper-button-next {
+    color: #007bff;
+    font-size: 22px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  
+  /* Push arrows away from center */
+  .testimonial-swiper .swiper-button-prev {
+    left: -40px;
+  }
+  
+  .testimonial-swiper .swiper-button-next {
+    right: -40px;
+  }
+  
+  /* === Arrows on Hover === */
+  .testimonial-swiper .swiper-button-prev:hover,
+  .testimonial-swiper .swiper-button-next:hover {
+    color: #facc15; /* yellow-400 */
+    transform: translateY(-50%) scale(1.4) rotate(3deg);
+    text-shadow: 0 0 8px rgba(250, 204, 21, 0.6);
+    cursor: pointer;
+  }
+  
+  /* === Responsive Positioning for Arrows (Small/Medium Screens) === */
+  @media (max-width: 768px) {
+    .testimonial-swiper .swiper-button-prev,
+    .testimonial-swiper .swiper-button-next {
+      position: absolute;
+      bottom: -3.5rem;
+      top: auto;
+      font-size: 20px;
+      color: #facc15;
+      z-index: 10;
+    }
+  
+    .testimonial-swiper .swiper-button-prev {
+      left: calc(50% - 40px);
+      transform: translateX(-50%);
+    }
+  
+    .testimonial-swiper .swiper-button-next {
+      left: calc(50% + 40px);
+      transform: translateX(-50%);
+    }
+  
+    /* ✅ Fix hover for mobile/tablet: preserve translateX */
+    .testimonial-swiper .swiper-button-prev:hover {
+      transform: translateX(-50%) scale(1.4) rotate(3deg);
+    }
+  
+    .testimonial-swiper .swiper-button-next:hover {
+      transform: translateX(-50%) scale(1.4) rotate(3deg);
+    }
+  }
+  
+  

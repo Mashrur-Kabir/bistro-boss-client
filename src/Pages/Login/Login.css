@@ -1,0 +1,24 @@
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  .btn-3d {
+    box-shadow: 0 8px 0 #b45309, 0 8px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  .btn-3d:active {
+    box-shadow: 0 3px 0 #b45309;
+    transform: translateY(4px);
+  }
+  
