@@ -18,3 +18,17 @@ const useCart = () => {
 };
 
 export default useCart;
+
+/* Tanstack is applicable for datas that are---
+1. Queryable
+It means you can ask for the data anytime.
+Example: "Get me all the menu items."
+
+2. Cacheable
+Once you get the data, TanStack Query remembers it.
+If you come back to the page, it doesn’t call the server again immediately — it shows you the old (cached) data first.
+
+3. Refetchable
+You can ask TanStack Query to get fresh data from the server.
+Example: if a new menu item is added, you can tell it to refetch.
+*/

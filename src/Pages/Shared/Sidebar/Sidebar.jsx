@@ -8,7 +8,12 @@ import {
   FaList,
   FaShoppingCart,
   FaEnvelope,
+  FaHotel,
+  FaCartArrowDown
 } from 'react-icons/fa';
+import { RiHome3Fill } from "react-icons/ri";
+import { HiClipboardDocumentList } from "react-icons/hi2";
+import { MdOutlinePreview, MdOutlinePayment } from "react-icons/md";
 import { NavLink } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -103,14 +108,14 @@ const Sidebar = () => {
                   isSidebarOpen={isSidebarOpen}
                 />
                 <SidebarLink
-                  to="cartitems"
+                  to="managecart"
                   icon={<FaUtensils />}
-                  label="Cart Items"
+                  label="Manage Items"
                   isSidebarOpen={isSidebarOpen}
                 />
                 <SidebarLink
                   to="additems"
-                  icon={<FaList />}
+                  icon={<HiClipboardDocumentList className='text-xl' />}
                   label="Add Items"
                   isSidebarOpen={isSidebarOpen}
                 />
@@ -129,6 +134,42 @@ const Sidebar = () => {
             </>
             :
             <>
+                <SidebarLink
+                  to="dashboarduser"
+                  icon={<FaHome />}
+                  label="User Home"
+                  isSidebarOpen={isSidebarOpen}
+                />
+                <SidebarLink
+                  to="reservation"
+                  icon={<FaHotel />}
+                  label="Reservation"
+                  isSidebarOpen={isSidebarOpen}
+                />
+                <SidebarLink
+                  to="cartitems"
+                  icon={<FaCartArrowDown />}
+                  label="My Cart"
+                  isSidebarOpen={isSidebarOpen}
+                />
+                <SidebarLink
+                  to="addreview"
+                  icon={<MdOutlinePreview className='text-xl'/>}
+                  label="Add Review"
+                  isSidebarOpen={isSidebarOpen}
+                />
+                <SidebarLink
+                  to="mybooking"
+                  icon={<FaBook />}
+                  label="My Booking"
+                  isSidebarOpen={isSidebarOpen}
+                />
+                <SidebarLink
+                  to="payment"
+                  icon={<MdOutlinePayment />}
+                  label="Payment"
+                  isSidebarOpen={isSidebarOpen}
+                />
             </>
           }
 
@@ -137,7 +178,7 @@ const Sidebar = () => {
           {/* common/shared */}
           <SidebarLink
             to="/"
-            icon={<FaHome />}
+            icon={<RiHome3Fill />}
             label="Home"
             isSidebarOpen={isSidebarOpen}
           />

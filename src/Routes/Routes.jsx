@@ -10,10 +10,13 @@ import Register from "../Pages/Register/Register";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import Dashboard from "../Layout/Dashboard/Dashboard";
 import DashboardHome from "../Pages/DashboardHome/DashboardHome";
-import CartItems from "../Pages/CartItems/CartItems";
 import AllUsers from "../Pages/AllUsers/AllUsers";
 import AddItem from "../Pages/AddItem/AddItem";
 import AdminRoute from "./AdminRoute/AdminRoute";
+import ManageCart from "../Pages/ManageCart/ManageCart";
+import UpdateCart from "../Pages/ManageCart/UpdateCart";
+import Payment from "../Pages/Payment/Payment";
+import CartItems from "../Pages/CartItems/CartItems";
 
 export const router = createBrowserRouter([
     {
@@ -26,11 +29,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'showallmenu',
-                element: <PrivateRoute><ShowAllMenu></ShowAllMenu></PrivateRoute>
+                element: <ShowAllMenu></ShowAllMenu>
             },
             {
                 path: 'order/:categories',
-                element: <Order></Order>
+                element: <PrivateRoute><Order></Order></PrivateRoute>
             },
             {
                 path: 'login',
@@ -52,8 +55,18 @@ export const router = createBrowserRouter([
                 element: <AdminRoute><DashboardHome></DashboardHome></AdminRoute>
             },
             {
-                path: 'cartitems',
-                element: <CartItems></CartItems>
+                path: 'managecart',
+                element: <AdminRoute><ManageCart></ManageCart></AdminRoute>
+            },
+            {
+                path: 'updatecart/:id',
+                element: <AdminRoute><UpdateCart></UpdateCart></AdminRoute>,
+                loader: ({params}) => fetch(`http://localhost:5000/menu/${params.id}`, {
+                    method: 'GET',
+                    headers: {
+                      authorization: `Bearer ${localStorage.getItem('access-token')}`
+                    }
+                }) //This will send the token correctly so verifyToken and verifyAdmin can authorize the request in the backend
             },
             {
                 path: 'allusers',
@@ -62,6 +75,16 @@ export const router = createBrowserRouter([
             {
                 path: 'additems',
                 element: <AdminRoute><AddItem></AddItem></AdminRoute>
+            },
+
+            //user routes
+            {
+                path: 'payment',
+                element: <PrivateRoute><Payment></Payment></PrivateRoute>
+            },
+            {
+                path: 'cartitems',
+                element: <PrivateRoute><CartItems></CartItems></PrivateRoute>
             }
         ]
     }

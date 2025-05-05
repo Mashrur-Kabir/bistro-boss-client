@@ -3,13 +3,14 @@ import SectionTitle from '../../Components/SectionTitle/SectionTitle';
 import useCart from '../../Hooks/useCart';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import { Link } from 'react-router-dom';
 
 const CartItems = () => {
   
   const [cart, refetch] = useCart();
 
   //total price
-  const totalPrice = cart.reduce((total, item) => total + item.price, 0)
+  const totalPrice = cart.reduce((total, item) => total + item.price, 0);
   
   const axiosSecure = useAxiosSecure();
 
@@ -45,7 +46,7 @@ const CartItems = () => {
   return (
     <div className="px-6 py-10 bg-gray-100 overflow-auto font-quicksand container mx-auto">
       {/* Header */}
-      <SectionTitle heading="MY CART" subheading="See the items of" />
+      <SectionTitle heading="YOUR CART ITEMS" subheading="Here are" />
 
       {/* Table Container */}
       <div className="bg-white shadow rounded-lg p-6 mb-10">
@@ -57,12 +58,21 @@ const CartItems = () => {
           <div>
             <p className="font-semibold font-tang text-4xl">Total Price: ${totalPrice.toFixed(2)}</p>
           </div>
-          <div>
-            <button className="relative text-2xl w-fit text-yellow-600 font-semibold uppercase tracking-wide group overflow-hidden px-4 border border-yellow-600 rounded-md transition-all duration-500 hover:text-white">
-              <span className="absolute inset-0 bg-yellow-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-0" />
+          {/* conditional link and button for payment */}
+          {
+            cart.length ? 
+            <Link to='/dashboard/payment'>
+              <button className="relative text-2xl w-fit text-yellow-600 font-semibold uppercase tracking-wide group overflow-hidden px-4 border border-yellow-600 rounded-md transition-all duration-500 hover:text-white">
+                <span className="absolute inset-0 bg-yellow-600 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-0" />
+                <span className="relative z-10">Pay</span>
+              </button>
+            </Link>
+            :
+            <button disabled className="relative text-2xl w-fit text-gray-500 font-semibold uppercase tracking-wide group overflow-hidden px-4 border border-gray-500 rounded-md transition-all duration-500 hover:text-white">
+              <span className="absolute inset-0 bg-gray-500 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-0" />
               <span className="relative z-10">Pay</span>
             </button>
-          </div>
+          }
         </div>
 
         {/* Table */}

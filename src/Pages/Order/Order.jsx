@@ -35,7 +35,7 @@ const Order = () => {
   const location = useLocation();
 
   //refetch
-  const [, refetch] = useCart(); //bringing cart data again
+  const [, refetch] = useCart(); 
 
   // adding selected items to cart
   const handleAddToCart = (food) => {
