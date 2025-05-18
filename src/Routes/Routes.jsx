@@ -9,7 +9,6 @@ import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import Dashboard from "../Layout/Dashboard/Dashboard";
-import DashboardHome from "../Pages/DashboardHome/DashboardHome";
 import AllUsers from "../Pages/AllUsers/AllUsers";
 import AddItem from "../Pages/AddItem/AddItem";
 import AdminRoute from "./AdminRoute/AdminRoute";
@@ -17,6 +16,8 @@ import ManageCart from "../Pages/ManageCart/ManageCart";
 import UpdateCart from "../Pages/ManageCart/UpdateCart";
 import Payment from "../Pages/Payment/Payment";
 import CartItems from "../Pages/CartItems/CartItems";
+import PaymentHistory from "../Pages/PaymentHistory/PaymentHistory";
+import AdminDashboard from "../Pages/DashboardHome/AdminDashboard";
 
 export const router = createBrowserRouter([
     {
@@ -51,8 +52,8 @@ export const router = createBrowserRouter([
         children: [
             //admin routes
             {
-                path: 'dashboardhome',
-                element: <AdminRoute><DashboardHome></DashboardHome></AdminRoute>
+                path: 'admindashboard',
+                element: <AdminRoute><AdminDashboard></AdminDashboard></AdminRoute>
             },
             {
                 path: 'managecart',
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
             {
                 path: 'cartitems',
                 element: <PrivateRoute><CartItems></CartItems></PrivateRoute>
+            },
+            {
+                path: 'paymenthistory',
+                element: <PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute>
             }
         ]
     }

@@ -68,6 +68,7 @@ const Login = () => {
           timer: 2000,
           timerProgressBar: true,
         });
+        navigate(from, {replace: true}); // redirect
       })
       .catch((error) => {
         Swal.fire({
@@ -80,7 +81,6 @@ const Login = () => {
   
     form.reset();
     setCaptchaInput("");
-    navigate(from, {replace: true}); // redirect
   };
   
 

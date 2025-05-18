@@ -14,7 +14,7 @@ const Payment = () => {
         <SectionTitle heading="PAYMENT" subheading="Complete your order via Stripe" />
       </div>
 
-      <div className="bg-white shadow-lg rounded-xl p-8 mt-8">
+      <div className="bg-white shadow-lg rounded-xl mt-8">
         <Elements stripe={stripePromise}>
           <CheckoutForm />
         </Elements>

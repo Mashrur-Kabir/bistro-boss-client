@@ -13,11 +13,12 @@ import {
 } from 'react-icons/fa';
 import { RiHome3Fill } from "react-icons/ri";
 import { HiClipboardDocumentList } from "react-icons/hi2";
-import { MdOutlinePreview, MdOutlinePayment } from "react-icons/md";
+import { MdOutlinePreview, MdOutlinePayment, MdHistory } from "react-icons/md";
 import { NavLink } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import useAdmin from '../../../Hooks/useAdmin';
+import useAuth from '../../../Hooks/useAuth';
 
 const SidebarLink = ({ to, icon, label, isSidebarOpen }) => (
   <NavLink
@@ -50,10 +51,12 @@ const SidebarLink = ({ to, icon, label, isSidebarOpen }) => (
 );
 
 const Sidebar = () => {
+  
   useEffect(() => {
     AOS.init({ duration: 600 });
   }, []);
 
+  const {user} = useAuth();
   const [isAdmin] = useAdmin();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -99,10 +102,11 @@ const Sidebar = () => {
         {/* Sidebar Links */}
         <div className="flex-1 space-y-2">
           {
-            isAdmin ?
-            <>
+            user && (
+              isAdmin ?
+              <>
                 <SidebarLink
-                  to="dashboardhome"
+                  to="admindashboard"
                   icon={<FaHome />}
                   label="Admin Home"
                   isSidebarOpen={isSidebarOpen}
@@ -131,9 +135,9 @@ const Sidebar = () => {
                   label="All Users"
                   isSidebarOpen={isSidebarOpen}
                 />
-            </>
-            :
-            <>
+             </>
+             :
+             <>
                 <SidebarLink
                   to="dashboarduser"
                   icon={<FaHome />}
@@ -170,7 +174,14 @@ const Sidebar = () => {
                   label="Payment"
                   isSidebarOpen={isSidebarOpen}
                 />
-            </>
+                <SidebarLink
+                  to="paymenthistory"
+                  icon={<MdHistory className='text-xl' />}
+                  label="Payment History"
+                  isSidebarOpen={isSidebarOpen}
+                />
+             </>
+            )
           }
 
           <hr className="border-orange-400 my-4" />

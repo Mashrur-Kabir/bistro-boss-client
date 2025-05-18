@@ -5,7 +5,7 @@ import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { GiFruitBowl } from 'react-icons/gi';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { useLoaderData } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -14,7 +14,6 @@ const UpdateCart = () => {
   const {name, category, recipe, price, image, _id} = useLoaderData();
 
   const [previewImage, setPreviewImage] = useState(image); // starts with default image
-  const fileInputRef = useRef(); // to clear file input programmatically
 
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic(); 
@@ -63,8 +62,7 @@ const UpdateCart = () => {
       if (res.data.modifiedCount > 0) {
         Swal.fire('Success', 'Item updated successfully!', 'success');
         reset(); // clears form fields
-        fileInputRef.current.value = ''; // clears file input
-        setPreviewImage(imageUrl); // set to new image preview
+        setPreviewImage(''); // clear image preview
       }
     } catch (err) {
       Swal.fire('Error', 'Failed to update item.', err);
@@ -149,23 +147,20 @@ const UpdateCart = () => {
             
             {/* File Input */}
             <input
-                type="file"
-                accept="image/*"
-                {...register('image')}
-                ref={(e) => {
-                register('image').ref(e);
-                fileInputRef.current = e;
-                }}
-                onChange={(e) => {
+              type="file"
+              accept="image/*"
+              {...register('image')}
+              onChange={(e) => {
                 const file = e.target.files[0];
                 if (file) {
-                    setPreviewImage(URL.createObjectURL(file)); // update preview
+                  setPreviewImage(URL.createObjectURL(file));
                 } else {
-                    setPreviewImage(image); // fallback to original if cleared
+                  setPreviewImage(image); // fallback to original
                 }
-                }}
-                className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:border-2 file:border-gray-300 file:rounded file:bg-gray-150 hover:file:bg-slate-200"
+              }}
+              className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:border-2 file:border-gray-300 file:rounded file:bg-gray-150 hover:file:bg-slate-200"
             />
+
         </div>
 
 
@@ -173,9 +168,9 @@ const UpdateCart = () => {
         <div>
           <button
             type="submit"
-            className="relative inline-flex items-center justify-center px-6 py-2 overflow-hidden font-semibold text-white transition-all duration-300 ease-in-out transform rounded shadow-lg bg-gradient-to-r from-orange-700 to-orange-500 hover:scale-105 hover:shadow-2xl group"
+            className="relative inline-flex items-center justify-center px-6 py-2 font-semibold text-white transition-all duration-300 ease-in-out transform bg-gradient-to-r from-orange-700 to-orange-500 rounded-xl shadow-[0_6px_0_#b45309] active:translate-y-[3px] active:shadow-[0_2px_0_#b45309] group"
           >
-            <span className="absolute inset-0 w-full h-full transition-opacity duration-300 ease-in-out bg-gradient-to-r from-orange-500 to-orange-700 opacity-0 group-hover:opacity-100 blur-sm"></span>
+            <span className="absolute inset-0 w-full h-full transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 blur-md rounded-xl"></span>
             <span className="relative z-10 flex items-center gap-2">
               Update Item <GiFruitBowl />
             </span>

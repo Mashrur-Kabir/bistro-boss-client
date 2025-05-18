@@ -11,6 +11,7 @@ import { FaRegCreditCard } from 'react-icons/fa';
 import { MdDateRange } from 'react-icons/md';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import { IoIosPricetags } from "react-icons/io";
+import { FiCopy } from 'react-icons/fi';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import useCart from '../../Hooks/useCart';
 import useAuth from '../../Hooks/useAuth';
@@ -19,18 +20,21 @@ const CheckoutForm = () => {
   const stripe = useStripe();
   const [clientSecret, setClientSecret] = useState('')
   const [transactionId, setTransactionId] = useState('')
+  const [copied, setCopied] = useState(false);
   const elements = useElements();
   const axiosSecure = useAxiosSecure();
-  const [cart] = useCart();
+  const [cart, refetch] = useCart();
   const totalPrice = cart.reduce((total, item) => total + item.price, 0);
   const {user} = useAuth();
 
   useEffect( () => {
-    axiosSecure.post('/create-payment-intent', {price: totalPrice})
-    .then(res => {
-        console.log(res.data.clientSecret)
-        setClientSecret(res.data.clientSecret)
-    })
+    if(totalPrice > 0){
+      axiosSecure.post('/create-payment-intent', {price: totalPrice})
+      .then(res => {
+          console.log(res.data.clientSecret)
+          setClientSecret(res.data.clientSecret)
+      })
+    }
   }, [axiosSecure, totalPrice])
 
   const [processing, setProcessing] = useState(false);
@@ -101,7 +105,7 @@ const CheckoutForm = () => {
                 name: user?.displayName || 'anonymous'
             }
         }
-    })
+    })    
 
     if(confirmError){
         console.log('error: ', confirmError)
@@ -109,8 +113,6 @@ const CheckoutForm = () => {
         console.log('payment intent: ', paymentIntent);
         if(paymentIntent.status === 'succeeded'){
             setTransactionId(paymentIntent.id);
-            Swal.fire('Success', 'Transaction successful! Payment Complete', 'success');
-            
             //now to save the payment info in the database:
             const payment = {
                 email: user.email,
@@ -119,22 +121,37 @@ const CheckoutForm = () => {
                 date: new Date(),
                 cartIds: cart.map(item => item._id),
                 menuItemIds: cart.map(item => item.menuId),
-                status: 'pending'
+                status: 'pending',
+                paymentType: 'Food Item'
             }
             const res = await axiosSecure.post('/payments', payment);
             console.log( 'payment info saved: ', res.data);
+            // ✅ Clear the form fields
+            elements.getElement(CardNumberElement)?.clear();
+            elements.getElement(CardExpiryElement)?.clear();
+            elements.getElement(CardCvcElement)?.clear();
+            refetch();
+            if(res.data?.paymentResult?.insertedId){
+              Swal.fire('Success', 'Transaction successful! Payment Complete', 'success');
+            }
         }
     }
   };
-  
 
+  //copy transaction id
+  const handleCopy = () => {
+    navigator.clipboard.writeText(transactionId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000); // reset after 3 seconds
+  };
+  
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 w-full mx-auto p-6 rounded-lg shadow-md"
+      className="space-y-6 w-full mx-auto p-8 rounded-lg shadow-md"
     >
       {/* total */}
-      <p className='text-sm mb-10 flex items-center gap-2'> <IoIosPricetags className='text-green-600'/> Total Price: ${totalPrice}</p>
+      <p className='text-sm mb-10 flex items-center gap-2'> <IoIosPricetags className='text-green-600'/> Total Price: ${totalPrice.toFixed(2)}</p>
       <div>
         <label className="block text-sm font-medium mb-1">Card Number</label>
         <div className="flex items-center border rounded p-3">
@@ -161,13 +178,31 @@ const CheckoutForm = () => {
       </div>
 
       {error && <p className="text-red-500 text-sm">{error}</p>}
-      {success && <p className="text-green-500 text-sm">{success}</p>}
-      {transactionId && <p className='text-green-500 text-sm'>Transaction Id: {transactionId}</p> }
+      {success && <p className="text-green-600 text-sm">{success}</p>}
+      {transactionId && (
+        <div className="flex items-end text-green-500 text-sm">
+          <span className='font-semibold'>Transaction Id: <br /> <span className='font-medium'>{transactionId}</span></span>
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="hover:text-green-700 transition"
+            title="Copy to clipboard"
+          >
+            <FiCopy className="cursor-pointer text-md ml-4 mb-0.5"/>
+          </button>
+          {copied && <span className="text-xs ml-2 text-gray-400">(Copied!)</span>}
+        </div>
+      )}
+
 
       <button
         type="submit"
-        disabled={!stripe || processing || !clientSecret}
-        className="w-full py-3 bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 transition"
+        disabled={!stripe || processing || !clientSecret || totalPrice === 0}
+        className={`w-full py-3 text-white font-semibold rounded transition ${
+          (!stripe || processing || !clientSecret || totalPrice === 0)
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-orange-500 hover:bg-orange-600'
+        }`}
       >
         {processing ? 'Processing...' : 'Pay with Stripe'}
       </button>

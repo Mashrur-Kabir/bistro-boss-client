@@ -139,9 +139,9 @@ const AddItem = () => {
         <div>
           <button
             type="submit"
-            className="relative inline-flex items-center justify-center px-6 py-2 overflow-hidden font-semibold text-white transition-all duration-300 ease-in-out transform rounded shadow-lg bg-gradient-to-r from-orange-700 to-orange-500 hover:scale-105 hover:shadow-2xl group"
+            className="relative inline-flex items-center justify-center px-6 py-2 font-semibold text-white transition-all duration-300 ease-in-out transform bg-gradient-to-r from-orange-700 to-orange-500 rounded-xl shadow-[0_6px_0_#b45309] active:translate-y-[3px] active:shadow-[0_2px_0_#b45309] group"
           >
-            <span className="absolute inset-0 w-full h-full transition-opacity duration-300 ease-in-out bg-gradient-to-r from-orange-500 to-orange-700 opacity-0 group-hover:opacity-100 blur-sm"></span>
+            <span className="absolute inset-0 w-full h-full transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100 blur-md rounded-xl"></span>
             <span className="relative z-10 flex items-center gap-2">
               Add Item <GiFruitBowl />
             </span>

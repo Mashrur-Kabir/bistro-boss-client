@@ -26,15 +26,15 @@ const SignInSocial = ({ label = "Sign in with Google" }) => {
         axiosPublic.post('/users', userInfo)
             .then(res => {
             console.log(res.data);
-            Swal.fire({
-                icon: "success",
-                title: "Welcome Back",
-                text: "Login successful!",
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-            });
-            navigate(from, { replace: true }); 
+                Swal.fire({
+                    icon: "success",
+                    title: "Welcome Back",
+                    text: "Login successful!",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                });
+                navigate(from, { replace: true }); 
             });
         })
         .catch(error => {
